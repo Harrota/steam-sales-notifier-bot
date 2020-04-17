@@ -7,14 +7,11 @@ import java.util.List;
 @Table(name = "apps")
 public class App {
     @Id
-    @Column(name = "id")
+    @Column(name = "appid")
     private int id;
 
     @Column(name = "name")
     private String name = "";
-
-    @Column(name = "headerURL")
-    private String headerURL = "";
 
     @Column(name = "initialPrice")
     private double initialPrice;
@@ -34,10 +31,12 @@ public class App {
             inverseJoinColumns = @JoinColumn(name= "user_id"))
     private List<User> usersList;
 
-    public App(int id, String name, String headerURL, double initialPrice, double finalPrice, int discountPercent, String headerImage) {
+    public App() {
+    }
+
+    public App(int id, String name, double initialPrice, double finalPrice, int discountPercent, String headerImage) {
         this.id = id;
         this.name = name;
-        this.headerURL = headerURL;
         this.initialPrice = initialPrice;
         this.finalPrice = finalPrice;
         this.discountPercent = discountPercent;
@@ -58,14 +57,6 @@ public class App {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getHeaderURL() {
-        return headerURL;
-    }
-
-    public void setHeaderURL(String headerURL) {
-        this.headerURL = headerURL;
     }
 
     public double getInitialPrice() {
@@ -92,15 +83,32 @@ public class App {
         this.discountPercent = discountPercent;
     }
 
+    public String getHeaderImage() {
+        return headerImage;
+    }
+
+    public void setHeaderImage(String headerImage) {
+        this.headerImage = headerImage;
+    }
+
+    public List<User> getUsersList() {
+        return usersList;
+    }
+
+    public void setUsersList(List<User> usersList) {
+        this.usersList = usersList;
+    }
+
     @Override
     public String toString() {
         return "App{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", headerURL='" + headerURL + '\'' +
                 ", initialPrice=" + initialPrice +
                 ", finalPrice=" + finalPrice +
                 ", discountPercent=" + discountPercent +
+                ", headerImage='" + headerImage + '\'' +
+                ", usersList=" + usersList +
                 '}';
     }
 }
