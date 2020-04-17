@@ -8,7 +8,7 @@ import java.util.List;
 public class App {
     @Id
     @Column(name = "appid")
-    private int id;
+    private Long id;
 
     @Column(name = "name")
     private String name = "";
@@ -34,7 +34,7 @@ public class App {
     public App() {
     }
 
-    public App(int id, String name, double initialPrice, double finalPrice, int discountPercent, String headerImage) {
+    public App(Long id, String name, double initialPrice, double finalPrice, int discountPercent, String headerImage) {
         this.id = id;
         this.name = name;
         this.initialPrice = initialPrice;
@@ -43,11 +43,11 @@ public class App {
         this.headerImage = headerImage;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

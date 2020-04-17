@@ -45,14 +45,12 @@ public class AppService {
     public static void main(String[] args) throws ParseException, IOException, URISyntaxException {
         AppService as = new AppService();
         App app = new App();
-        as.jsonToApp(app, "https://store.steampowered.com/app/570/Dota_2/");
+        as.jsonToApp(app, "https://store.steampowered.com/app/882100/XCOM_Chimera_Squad/");
+        System.out.println(app);
     }
 
     private App jsonToApp(App app, String url) throws IOException, ParseException, URISyntaxException {
-        URL address = new URL(url);
-        String path = address.getPath();
-        path = path.substring(path.lastIndexOf("app/",'/') + 4);
-        path = path.split("/")[0];
+        String path = formatPath(url);
 
         url = API_URL + ENDPOINT + path + CURRENCY;
         String genreJson = IOUtils.toString(new URL(url));
@@ -68,23 +66,27 @@ public class AppService {
 
         Map priceMap = ((Map) indata.get("price_overview"));
 
-        System.out.println(inid);
-        System.out.println(indata);
-        System.out.println(appid);
-        System.out.println(name);
-        System.out.println(headerImage);
+        app.setId(appid);
+        app.setName(name);
+        app.setHeaderImage(headerImage);
 
         if(priceMap != null) {
             double initialPrice = ((Long) priceMap.get("initial")).doubleValue() / 100;
             double finalPrice = ((Long) priceMap.get("final")).doubleValue() / 100;
-            double discountPercent = ((Long) priceMap.get("discount_percent")).doubleValue();
-            System.out.println(initialPrice);
-            System.out.println(finalPrice);
-            System.out.println(discountPercent);
-
+            int discountPercent = ((Long) priceMap.get("discount_percent")).intValue();
+            app.setInitialPrice(initialPrice);
+            app.setFinalPrice(finalPrice);
+            app.setDiscountPercent(discountPercent);
         }
-
         return app;
+    }
+
+    private String formatPath(String url) throws MalformedURLException {
+        URL address = new URL(url);
+        String path = address.getPath();
+        path = path.substring(path.lastIndexOf("app/",'/') + 4);
+        path = path.split("/")[0];
+        return path;
     }
 
     private String getIDFromURL(String url) {
