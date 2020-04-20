@@ -9,5 +9,5 @@ public interface AppDAO {
     void add(App app);
     void delete(App app);
     void edit(App app);
-    App getById(int id);
+    App getById(Long id);
 }

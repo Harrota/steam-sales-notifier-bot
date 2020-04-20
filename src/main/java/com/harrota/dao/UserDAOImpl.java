@@ -1,14 +1,14 @@
 package com.harrota.dao;
 
-import com.harrota.model.App;
+
+import com.harrota.model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-public class AppDAOImpl implements  AppDAO{
-
+public class UserDAOImpl implements UserDAO{
     private SessionFactory sessionFactory;
 
     @Autowired
@@ -17,32 +17,32 @@ public class AppDAOImpl implements  AppDAO{
     }
 
     @Override
-    public List<App> allApps() {
+    public List<User> allUsers() {
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("from apps").list();
+        return session.createQuery("from users").list();
     }
 
     @Override
-    public void add(App app) {
+    public void add(User user) {
         Session session = sessionFactory.getCurrentSession();
-        session.persist(app);
+        session.persist(user);
     }
 
     @Override
-    public void delete(App app) {
+    public void delete(User user) {
         Session session = sessionFactory.getCurrentSession();
-        session.delete(app);
+        session.delete(user);
     }
 
     @Override
-    public void edit(App app) {
+    public void edit(User user) {
         Session session = sessionFactory.getCurrentSession();
-        session.update(app);
+        session.update(user);
     }
 
     @Override
-    public App getById(Long id) {
+    public User getById(Long id) {
         Session session = sessionFactory.getCurrentSession();
-        return session.get(App.class, id);
+        return session.get(User.class, id);
     }
 }

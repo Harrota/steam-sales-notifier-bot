@@ -9,5 +9,7 @@ public interface Constants {
 
     String HELP_DESCRIPTION = "list all known commands";
     String ADD_DESCRIPTION = "add new app to notify about";
+    String GET_DESCRIPTION = "get app info";
     int CREATOR_ID = 350285086;
+
 }

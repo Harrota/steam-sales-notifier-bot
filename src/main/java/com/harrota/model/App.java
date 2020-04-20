@@ -7,7 +7,7 @@ import java.util.List;
 @Table(name = "apps")
 public class App {
     @Id
-    @Column(name = "appid")
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "name")

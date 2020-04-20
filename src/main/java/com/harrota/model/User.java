@@ -10,7 +10,7 @@ public class User {
 
     @Id
     @Column(name = "chatid")
-    private int chatID;
+    private Long chatID;
 
     @ManyToMany
     @JoinTable(
@@ -20,16 +20,16 @@ public class User {
     )
     private List<App> appsList;
 
-    public User(int chatID, List<App> appsList) {
+    public User(Long chatID, List<App> appsList) {
         this.chatID = chatID;
         this.appsList = appsList;
     }
 
-    public int getChatID() {
+    public Long getChatID() {
         return chatID;
     }
 
-    public void setChatID(int chatID) {
+    public void setChatID(Long chatID) {
         this.chatID = chatID;
     }
 
