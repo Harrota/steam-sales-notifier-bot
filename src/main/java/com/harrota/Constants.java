@@ -2,8 +2,8 @@ package com.harrota;
 
 public interface Constants {
 
-    String BOT_TOKEN = "1142629547:AAGTn1MzJLLNYzVATxAckztzIbAEKNKc-L0";
-    String BOT_NAME = "SteamSalesBot";
+    String BOT_TOKEN = "";
+    String BOT_NAME = "";
 
     String API_URL = "https://store.steampowered.com/api/";
 
