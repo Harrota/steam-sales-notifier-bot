@@ -42,11 +42,9 @@ public class UserDAO {
         session.close();
     }
     public App findAppById(Long id) {
-        System.out.println("findAppById " + id);
         Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
         App app = session.get(App.class, id);
         session.close();
-        System.out.println("get app");
         return app;
     }
 
@@ -55,7 +53,6 @@ public class UserDAO {
         Criteria criteria = session.createCriteria(User.class);
         List<User> list = criteria.add(Restrictions.eq("chatId", chatId)).list();
         session.close();
-//        System.out.println("found user by chatId " + user.getChatId() + "  " + user.getId());
         return list;
     }
 

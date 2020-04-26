@@ -17,6 +17,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -65,19 +66,41 @@ public class AppInteractionService {
         return sb.toString();
     }
 
-//    public void addApp(App app) {
+    //    public void addApp(App app) {
 //        appService.add(app);
 //    }
 
-    public App jsonToApp(String url) throws IOException, ParseException, URISyntaxException {
+    public App jsonToApp(String url) {
+        App app = new App();
+        app.setAppUrl(url);
 
-        String path = formatPath(url);
+        String path = null;
+        try {
+            path = formatPath(url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
 
         url = API_URL + ENDPOINT + path + CURRENCY;
-        String genreJson = IOUtils.toString(new URL(url));
-        JSONObject skr = (JSONObject) JSONValue.parseWithException(genreJson);
+        String genreJson = null;
+        try {
+            genreJson = IOUtils.toString(new URL(url));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        JSONObject skr = null;
+        try {
+            skr = (JSONObject) JSONValue.parseWithException(genreJson);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
-        List<NameValuePair> params = URLEncodedUtils.parse(new URI(url), StandardCharsets.UTF_8);
+        List<NameValuePair> params = null;
+        try {
+            params = URLEncodedUtils.parse(new URI(url), StandardCharsets.UTF_8);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
         Long appid = Long.parseLong((params.get(0).getValue()));//App ID
 
         Map inid = ((Map) skr.get(appid.toString()));           //Map in ID
@@ -86,9 +109,10 @@ public class AppInteractionService {
         String headerImage = (String) indata.get("header_image");
 
         Map priceMap = ((Map) indata.get("price_overview"));
-        App app = new App();
+
 
         app.setId(appid);
+
         app.setName(name);
         app.setHeaderImage(headerImage);
 

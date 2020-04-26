@@ -5,10 +5,7 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "apps")
@@ -36,19 +33,22 @@ public class App {
     @Column(name = "headerImage")
     private String headerImage;
 
+    @Column(name = "appUrl")
+    private String appUrl;
+
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_app",
             //foreign key for CarsEntity in employee_car table
             joinColumns = @JoinColumn(name = "app_id"),
             //foreign key for other side - EmployeeEntity in employee_car table
             inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private Set<User> users = new HashSet<>();
+    private List<User> users = new ArrayList<User>();
 
-    public Set<User> getUsersSet() {
+    public List<User> getUsersSet() {
         return users;
     }
 
-    public void setUserSet(Set<User> users) {
+    public void setUserSet(List<User> users) {
         this.users = users;
     }
 
@@ -107,5 +107,11 @@ public class App {
         this.headerImage = headerImage;
     }
 
+    public String getAppUrl() {
+        return appUrl;
+    }
 
+    public void setAppUrl(String appUrl) {
+        this.appUrl = appUrl;
+    }
 }

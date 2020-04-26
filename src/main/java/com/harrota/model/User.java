@@ -5,7 +5,9 @@ import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -29,13 +31,13 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             //foreign key for other side - EmployeeEntity in employee_car table
             inverseJoinColumns = @JoinColumn(name = "app_id"))
-    private Set<App> apps = new HashSet<>();
+    private List<App> apps = new ArrayList<>();
 
-    public Set<App> getAppSet () {
+    public List<App> getAppSet () {
         return apps;
     }
 
-    public void setAppSet(Set<App> apps) {
+    public void setAppSet(List<App> apps) {
         this.apps = apps;
     }
 
