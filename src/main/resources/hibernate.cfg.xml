@@ -1,19 +1,15 @@
-<?xml version='1.0' encoding='utf-8' ?>
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-configuration xmlns="http://www.hibernate.org/xsd/orm/cfg">
+<session-factory>
+    <property name="connection.url">jdbc:postgresql://localhost:5432/steamdb?createDatabaseIfNotExist=true</property>
+    <property name="connection.driver_class">org.postgresql.Driver</property>
+    <property name="connection.username">postgres</property>
+    <property name="connection.password">root</property>
+    <property name="dialect">org.hibernate.dialect.PostgreSQL94Dialect</property>
+    <property name="show_sql">true</property>
+    <property name="hbm2ddl.auto">update</property>
+    <mapping class="com.harrota.model.User" />
+    <mapping class="com.harrota.model.App" />
 
-<!DOCTYPE hibernate-configuration PUBLIC
-        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd" >
-
-<hibernate-configuration>
-    <session-factory>
-        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
-        <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/steamsales</property>
-        <property name="hibernate.connection.username">postgres</property>
-        <property name="hibernate.connection.password">root</property>
-        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQL10Dialect</property>
-        <property name="show_sql">true</property>
-        <property name="hibernate.hbm2ddl.auto">update</property>
-        <mapping class="com.harrota.model.User"/>
-        <mapping class="com.harrota.model.App"/>
-    </session-factory>
+</session-factory>
 </hibernate-configuration>

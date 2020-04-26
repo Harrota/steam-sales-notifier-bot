@@ -1,17 +1,28 @@
 package com.harrota.model;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.NaturalId;
+
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "apps")
 public class App {
+
     @Id
     @Column(name = "id")
+    @Fetch(FetchMode.SELECT)
     private Long id;
 
+    @NaturalId
     @Column(name = "name")
-    private String name = "";
+    @Fetch(FetchMode.SELECT)
+    private String name;
 
     @Column(name = "initialPrice")
     private double initialPrice;
@@ -23,24 +34,29 @@ public class App {
     private int discountPercent;
 
     @Column(name = "headerImage")
-    private String headerImage = "";
+    private String headerImage;
 
-    @ManyToMany
-    @JoinTable(name = "apps_users",
-            joinColumns = @JoinColumn (name= "app_id"),
-            inverseJoinColumns = @JoinColumn(name= "user_id"))
-    private List<User> usersList;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_app",
+            //foreign key for CarsEntity in employee_car table
+            joinColumns = @JoinColumn(name = "app_id"),
+            //foreign key for other side - EmployeeEntity in employee_car table
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> users = new HashSet<>();
 
-    public App() {
+    public Set<User> getUsersSet() {
+        return users;
     }
 
-    public App(Long id, String name, double initialPrice, double finalPrice, int discountPercent, String headerImage) {
-        this.id = id;
-        this.name = name;
-        this.initialPrice = initialPrice;
-        this.finalPrice = finalPrice;
-        this.discountPercent = discountPercent;
-        this.headerImage = headerImage;
+    public void setUserSet(Set<User> users) {
+        this.users = users;
+    }
+
+    public void addUser(User user) {
+        users.add(user);
+    }
+
+    public App() {
     }
 
     public Long getId() {
@@ -91,24 +107,5 @@ public class App {
         this.headerImage = headerImage;
     }
 
-    public List<User> getUsersList() {
-        return usersList;
-    }
 
-    public void setUsersList(List<User> usersList) {
-        this.usersList = usersList;
-    }
-
-    @Override
-    public String toString() {
-        return "App{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", initialPrice=" + initialPrice +
-                ", finalPrice=" + finalPrice +
-                ", discountPercent=" + discountPercent +
-                ", headerImage='" + headerImage + '\'' +
-                ", usersList=" + usersList +
-                '}';
-    }
 }
