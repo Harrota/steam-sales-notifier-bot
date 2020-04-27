@@ -14,9 +14,8 @@ import org.telegram.abilitybots.api.objects.Privacy;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import static java.lang.String.format;
 import static java.util.Objects.nonNull;
@@ -129,13 +128,40 @@ public class NotifierBot extends AbilityBot implements Constants {
                     String result = "Added apps:\n";
                     List<User> users = userService.findUsersByChatId(ctx.chatId());
                     for(User user : users){
-                        Set<App> apps = user.getAppSet();
+                        List<App> apps = user.getAppSet();
 
                         for(App app : apps) {
                             result += app.getName() + "\n";
                         }
                     }
                     System.out.println("got list for " + ctx.chatId());
+                    silent.send(result, ctx.chatId());
+                })
+                .build();
+    }
+    public Ability listSaleApps() {
+        return builder()
+                .name("listsales")
+                .info(Constants.SALES_DESCRIPTION)
+                .input(0)
+                .locality(ALL)
+                .privacy(PUBLIC)
+                .action(ctx -> {
+                    String result = "Apps with sale:\n\n";
+                    List<App> apps = appService.findAllApps();
+                    List<App> saleApps = new ArrayList<>();
+                    for(App app : apps){
+                        System.out.println(app.getName() + "   " + app.getDiscountPercent());
+                        App uncheckedApp = appInteractionService.jsonToApp(app.getAppUrl());
+                        if (uncheckedApp.getDiscountPercent() != 0) {
+                            saleApps.add(uncheckedApp);
+                        }
+                    }
+                        for(App app : saleApps){
+                            result +=app.getName() + " - " + app.getDiscountPercent() + "% OFF!\n  " + (int)app.getInitialPrice() + " RUB - before\n  " + (int)app.getFinalPrice() + " RUB - now\n\n";
+
+
+                        }
                     silent.send(result, ctx.chatId());
                 })
                 .build();
