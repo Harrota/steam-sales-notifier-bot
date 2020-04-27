@@ -21,7 +21,7 @@ public class User {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "chatid", unique = false)
+    @Column(name = "chatid")
     @Fetch(FetchMode.SELECT)
     private Long chatId;
 

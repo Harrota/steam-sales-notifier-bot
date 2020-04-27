@@ -12,11 +12,16 @@ import java.util.*;
 public class App {
 
     @Id
-    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Fetch(FetchMode.SELECT)
+    @Column(name = "id")
     private Long id;
 
     @NaturalId
+    @Column(name = "appid", unique = true)
+    @Fetch(FetchMode.SELECT)
+    private Long appid;
+
     @Column(name = "name")
     @Fetch(FetchMode.SELECT)
     private String name;
@@ -113,5 +118,13 @@ public class App {
 
     public void setAppUrl(String appUrl) {
         this.appUrl = appUrl;
+    }
+
+    public Long getAppid() {
+        return appid;
+    }
+
+    public void setAppid(Long appid) {
+        this.appid = appid;
     }
 }

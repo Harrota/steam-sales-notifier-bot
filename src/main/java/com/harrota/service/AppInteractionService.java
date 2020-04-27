@@ -111,7 +111,7 @@ public class AppInteractionService {
         Map priceMap = ((Map) indata.get("price_overview"));
 
 
-        app.setId(appid);
+        app.setAppid(appid);
 
         app.setName(name);
         app.setHeaderImage(headerImage);
