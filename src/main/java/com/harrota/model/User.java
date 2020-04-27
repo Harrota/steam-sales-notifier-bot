@@ -33,11 +33,11 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "app_id"))
     private List<App> apps = new ArrayList<>();
 
-    public List<App> getAppSet () {
+    public List<App> getAppList() {
         return apps;
     }
 
-    public void setAppSet(List<App> apps) {
+    public void setAppList(List<App> apps) {
         this.apps = apps;
     }
 

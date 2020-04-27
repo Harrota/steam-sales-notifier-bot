@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.lang.String.format;
 import static java.util.Objects.nonNull;
@@ -127,10 +129,10 @@ public class NotifierBot extends AbilityBot implements Constants {
                     System.out.println("started list for " + ctx.chatId());
                     String result = "Added apps:\n";
                     List<User> users = userService.findUsersByChatId(ctx.chatId());
-                    for(User user : users){
-                        List<App> apps = user.getAppSet();
+                    for (User user : users) {
+                        List<App> apps = user.getAppList();
 
-                        for(App app : apps) {
+                        for (App app : apps) {
                             result += app.getName() + "\n";
                         }
                     }
@@ -139,6 +141,8 @@ public class NotifierBot extends AbilityBot implements Constants {
                 })
                 .build();
     }
+
+
     public Ability listSaleApps() {
         return builder()
                 .name("listsales")
@@ -147,21 +151,29 @@ public class NotifierBot extends AbilityBot implements Constants {
                 .locality(ALL)
                 .privacy(PUBLIC)
                 .action(ctx -> {
-                    String result = "Apps with sale:\n\n";
-                    List<App> apps = appService.findAllApps();
+                    List<User> users = userService.findUsersByChatId(ctx.chatId());
+                    List<App> apps = new ArrayList<>();
+
+                    for (User user : users) {
+                        apps = Stream.concat(user.getAppList().stream(), apps.stream())
+                                .collect(Collectors.toList());
+                    }
+
                     List<App> saleApps = new ArrayList<>();
-                    for(App app : apps){
+
+                    String result = "Apps with sale:\n\n";
+                    for (App app : apps) {
                         System.out.println(app.getName() + "   " + app.getDiscountPercent());
                         App uncheckedApp = appInteractionService.jsonToApp(app.getAppUrl());
                         if (uncheckedApp.getDiscountPercent() != 0) {
                             saleApps.add(uncheckedApp);
                         }
                     }
-                        for(App app : saleApps){
-                            result +=app.getName() + " - " + app.getDiscountPercent() + "% OFF!\n  " + (int)app.getInitialPrice() + " RUB - before\n  " + (int)app.getFinalPrice() + " RUB - now\n\n";
+                    for (App app : saleApps) {
+                        result += app.getName() + " - " + app.getDiscountPercent() + "% OFF!\n  " + (int) app.getInitialPrice() + " RUB - before\n  " + (int) app.getFinalPrice() + " RUB - now\n\n";
 
 
-                        }
+                    }
                     silent.send(result, ctx.chatId());
                 })
                 .build();
