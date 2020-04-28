@@ -1,7 +1,14 @@
 package com.harrota.model;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.NaturalId;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -9,43 +16,51 @@ import java.util.List;
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Fetch(FetchMode.SELECT)
     @Column(name = "id")
-    private int chatID;
+    private Long id;
 
-    @ManyToMany
-    @JoinTable(
-            name = "apps_users",
-            joinColumns = @JoinColumn (name= "user_id"),
-            inverseJoinColumns = @JoinColumn(name= "app_id")
-    )
-    private List<App> appsList;
+    @Column(name = "chatid")
+    @Fetch(FetchMode.SELECT)
+    private Long chatId;
 
-    public User(int chatID, List<App> appsList) {
-        this.chatID = chatID;
-        this.appsList = appsList;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_app",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "app_id"))
+    private List<App> apps = new ArrayList<>();
+
+    public List<App> getAppList() {
+        return apps;
     }
 
-    public int getChatID() {
-        return chatID;
+    public void setAppList(List<App> apps) {
+        this.apps = apps;
     }
 
-    public void setChatID(int chatID) {
-        this.chatID = chatID;
+    public void addApp(App app) {
+        apps.add(app);
     }
 
-    public List<App> getAppsList() {
-        return appsList;
+    public User() {
     }
 
-    public void setAppsList(List<App> appsList) {
-        this.appsList = appsList;
+    public Long getId() {
+        return id;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "chatID=" + chatID +
-                ", appsList=" + appsList +
-                '}';
+    public void setId(Long id) {
+        this.id = id;
     }
+
+    public Long getChatId() {
+        return chatId;
+    }
+
+    public void setChatId(Long chatId) {
+        this.chatId = chatId;
+    }
+
+
 }

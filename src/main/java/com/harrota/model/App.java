@@ -1,20 +1,30 @@
 package com.harrota.model;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.NaturalId;
+
 import javax.persistence.*;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "apps")
 public class App {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Fetch(FetchMode.SELECT)
     @Column(name = "id")
-    private int id;
+    private Long id;
+
+
+    @Column(name = "appid")
+    @Fetch(FetchMode.SELECT)
+    private Long appid;
 
     @Column(name = "name")
-    private String name = "";
-
-    @Column(name = "headerURL")
-    private String headerURL = "";
+    @Fetch(FetchMode.SELECT)
+    private String name;
 
     @Column(name = "initialPrice")
     private double initialPrice;
@@ -26,29 +36,37 @@ public class App {
     private int discountPercent;
 
     @Column(name = "headerImage")
-    private String headerImage = "";
+    private String headerImage;
 
-    @ManyToMany
-    @JoinTable(name = "apps_users",
-            joinColumns = @JoinColumn (name= "app_id"),
-            inverseJoinColumns = @JoinColumn(name= "user_id"))
-    private List<User> usersList;
+    @Column(name = "appUrl")
+    private String appUrl;
 
-    public App(int id, String name, String headerURL, double initialPrice, double finalPrice, int discountPercent, String headerImage) {
-        this.id = id;
-        this.name = name;
-        this.headerURL = headerURL;
-        this.initialPrice = initialPrice;
-        this.finalPrice = finalPrice;
-        this.discountPercent = discountPercent;
-        this.headerImage = headerImage;
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "user_app",
+            joinColumns = @JoinColumn(name = "app_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<User> users = new ArrayList<User>();
+
+    public List<User> getUsersSet() {
+        return users;
     }
 
-    public int getId() {
+    public void setUserSet(List<User> users) {
+        this.users = users;
+    }
+
+    public void addUser(User user) {
+        users.add(user);
+    }
+
+    public App() {
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -58,14 +76,6 @@ public class App {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getHeaderURL() {
-        return headerURL;
-    }
-
-    public void setHeaderURL(String headerURL) {
-        this.headerURL = headerURL;
     }
 
     public double getInitialPrice() {
@@ -92,15 +102,27 @@ public class App {
         this.discountPercent = discountPercent;
     }
 
-    @Override
-    public String toString() {
-        return "App{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", headerURL='" + headerURL + '\'' +
-                ", initialPrice=" + initialPrice +
-                ", finalPrice=" + finalPrice +
-                ", discountPercent=" + discountPercent +
-                '}';
+    public String getHeaderImage() {
+        return headerImage;
+    }
+
+    public void setHeaderImage(String headerImage) {
+        this.headerImage = headerImage;
+    }
+
+    public String getAppUrl() {
+        return appUrl;
+    }
+
+    public void setAppUrl(String appUrl) {
+        this.appUrl = appUrl;
+    }
+
+    public Long getAppId() {
+        return appid;
+    }
+
+    public void setAppId(Long appid) {
+        this.appid = appid;
     }
 }
