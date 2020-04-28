@@ -17,8 +17,8 @@ public class App {
     @Column(name = "id")
     private Long id;
 
-    @NaturalId
-    @Column(name = "appid", unique = true)
+
+    @Column(name = "appid")
     @Fetch(FetchMode.SELECT)
     private Long appid;
 
@@ -43,9 +43,7 @@ public class App {
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_app",
-            //foreign key for CarsEntity in employee_car table
             joinColumns = @JoinColumn(name = "app_id"),
-            //foreign key for other side - EmployeeEntity in employee_car table
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> users = new ArrayList<User>();
 
@@ -120,11 +118,11 @@ public class App {
         this.appUrl = appUrl;
     }
 
-    public Long getAppid() {
+    public Long getAppId() {
         return appid;
     }
 
-    public void setAppid(Long appid) {
+    public void setAppId(Long appid) {
         this.appid = appid;
     }
 }

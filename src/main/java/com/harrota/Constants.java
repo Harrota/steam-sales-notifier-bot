@@ -12,6 +12,7 @@ public interface Constants {
     String GET_DESCRIPTION = "get app info";
     String LIST_DESCRIPTION = "list of tracked apps";
     String SALES_DESCRIPTION = "list of apps which now for sale";
+    String DELETE_DESCRIPTION = "delete app from list";
 
     int CREATOR_ID = 350285086;
 

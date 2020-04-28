@@ -27,9 +27,7 @@ public class User {
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "user_app",
-            //foreign key for EmployeeEntity in employee_car table
             joinColumns = @JoinColumn(name = "user_id"),
-            //foreign key for other side - EmployeeEntity in employee_car table
             inverseJoinColumns = @JoinColumn(name = "app_id"))
     private List<App> apps = new ArrayList<>();
 

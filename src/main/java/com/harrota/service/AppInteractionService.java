@@ -17,7 +17,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -111,7 +110,7 @@ public class AppInteractionService {
         Map priceMap = ((Map) indata.get("price_overview"));
 
 
-        app.setAppid(appid);
+        app.setAppId(appid);
 
         app.setName(name);
         app.setHeaderImage(headerImage);

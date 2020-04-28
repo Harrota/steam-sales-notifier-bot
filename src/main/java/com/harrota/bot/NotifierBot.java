@@ -79,7 +79,7 @@ public class NotifierBot extends AbilityBot implements Constants {
                 .privacy(Privacy.PUBLIC)
                 .action(ctx -> {
                     try {
-                        System.out.println("get app for " + ctx.chatId());
+                        System.out.println("Get app for " + ctx.chatId());
                         silent.send(appInteractionService.getAppString(ctx.firstArg()), ctx.chatId());
                     } catch (ParseException | URISyntaxException | IOException e) {
                         e.printStackTrace();
@@ -98,7 +98,7 @@ public class NotifierBot extends AbilityBot implements Constants {
                 .privacy(Privacy.PUBLIC)
                 .action(ctx -> {
                     try {
-                        System.out.println("started adding app for " + ctx.chatId());
+                        System.out.println("Started adding app for " + ctx.chatId());
                         User user = new User();
                         App app = appInteractionService.jsonToApp(ctx.firstArg());
 
@@ -107,9 +107,9 @@ public class NotifierBot extends AbilityBot implements Constants {
                         user.addApp(app);
                         userService.saveUser(user);
 
-                        System.out.println("added app for " + ctx.chatId());
+                        System.out.println("Added app for " + ctx.chatId());
                         silent.send(appInteractionService.getAppString(ctx.firstArg()) +
-                                "\nSUCCESSFULLY ADDED \nYou can list all your apps by using /list command", ctx.chatId());
+                                "\n\nSUCCESSFULLY ADDED \nYou can list all your apps by using /list command", ctx.chatId());
                     } catch (IOException | ParseException | URISyntaxException e) {
                         e.printStackTrace();
                     }
@@ -126,7 +126,7 @@ public class NotifierBot extends AbilityBot implements Constants {
                 .locality(ALL)
                 .privacy(PUBLIC)
                 .action(ctx -> {
-                    System.out.println("started list for " + ctx.chatId());
+                    System.out.println("Getting list of apps for " + ctx.chatId());
                     String result = "Added apps:\n";
                     List<User> users = userService.findUsersByChatId(ctx.chatId());
                     for (User user : users) {
@@ -136,7 +136,7 @@ public class NotifierBot extends AbilityBot implements Constants {
                             result += app.getName() + "\n";
                         }
                     }
-                    System.out.println("got list for " + ctx.chatId());
+                    System.out.println("Got list of apps for " + ctx.chatId());
                     silent.send(result, ctx.chatId());
                 })
                 .build();
@@ -151,6 +151,7 @@ public class NotifierBot extends AbilityBot implements Constants {
                 .locality(ALL)
                 .privacy(PUBLIC)
                 .action(ctx -> {
+                    System.out.println("Getting list of apps with discount for " + ctx.chatId());
                     List<User> users = userService.findUsersByChatId(ctx.chatId());
                     List<App> apps = new ArrayList<>();
 
@@ -160,8 +161,8 @@ public class NotifierBot extends AbilityBot implements Constants {
                     }
 
                     List<App> saleApps = new ArrayList<>();
-
                     String result = "Apps with sale:\n\n";
+
                     for (App app : apps) {
                         System.out.println(app.getName() + "   " + app.getDiscountPercent());
                         App uncheckedApp = appInteractionService.jsonToApp(app.getAppUrl());
@@ -171,10 +172,42 @@ public class NotifierBot extends AbilityBot implements Constants {
                     }
                     for (App app : saleApps) {
                         result += app.getName() + " - " + app.getDiscountPercent() + "% OFF!\n  " + (int) app.getInitialPrice() + " RUB - before\n  " + (int) app.getFinalPrice() + " RUB - now\n\n";
-
-
                     }
                     silent.send(result, ctx.chatId());
+                })
+                .build();
+    }
+
+    public Ability deleteApp() {
+        return builder()
+                .name("delete")
+                .info(Constants.DELETE_DESCRIPTION)
+                .input(1)
+                .locality(ALL)
+                .privacy(PUBLIC)
+                .action(ctx -> {
+                    try {
+                        System.out.println("Started deleting app for " + ctx.chatId());
+                        List<User> users = userService.findUsersByChatId(ctx.chatId());
+                        App app = appInteractionService.jsonToApp(ctx.firstArg());
+
+                        for (User user : users) {
+                            List<App> apps = user.getAppList();
+                            for (App userApp : apps) {
+                                if (userApp.getAppId().equals(app.getAppId())) {
+                                    System.out.println("Deleted app for " + ctx.chatId());
+                                    silent.send(appInteractionService.getAppString(ctx.firstArg()) +
+                                            "\n\nSUCCESSFULLY DELETED \nYou can list all your apps by using /list command", ctx.chatId());
+                                    appService.deleteApp(userApp);
+                                    userService.deleteUser(user);
+                                }
+                            }
+                        }
+
+                    } catch (IOException | ParseException | URISyntaxException e) {
+                        e.printStackTrace();
+                    }
+
                 })
                 .build();
     }
