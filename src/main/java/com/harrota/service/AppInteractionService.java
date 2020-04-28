@@ -25,24 +25,13 @@ import static com.harrota.Constants.CURRENCY;
 
 
 public class AppInteractionService {
-    private Logger logger = LoggerFactory.getLogger(AppInteractionService.class);
     private final MessageSender sender;
-    private App[] apps;
     private final String ENDPOINT = "/appdetails?appids=";
     private AppService appService;
 
 
     public AppInteractionService(MessageSender sender) {
         this.sender = sender;
-    }
-
-    public static void main(String[] args) throws ParseException, IOException, URISyntaxException {
-//
-//         AppInteractionService as = new AppInteractionService();
-//         App app = new App();
-//         String result = as.getApp("https://store.steampowered.com/app/882100/XCOM_Chimera_Squad/");
-//         as.jsonToApp(app, "https://store.steampowered.com/app/882100/XCOM_Chimera_Squad/");
-//         System.out.println(result);
     }
 
     public String getAppString(String url) throws ParseException, IOException, URISyntaxException {

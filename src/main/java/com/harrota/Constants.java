@@ -2,8 +2,8 @@ package com.harrota;
 
 public interface Constants {
 
-    String BOT_TOKEN = "1142629547:AAGTn1MzJLLNYzVATxAckztzIbAEKNKc-L0";
-    String BOT_NAME = "SteamSalesBot";
+    String BOT_TOKEN = "";
+    String BOT_NAME = "";
 
     String API_URL = "https://store.steampowered.com/api/";
 
@@ -14,7 +14,7 @@ public interface Constants {
     String SALES_DESCRIPTION = "list of apps which now for sale";
     String DELETE_DESCRIPTION = "delete app from list";
 
-    int CREATOR_ID = 350285086;
+    int CREATOR_ID = 123456789;
 
     String CURRENCY = "&cc=ru&l=ru";
 }
