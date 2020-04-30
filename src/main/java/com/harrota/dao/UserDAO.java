@@ -5,7 +5,6 @@ import com.harrota.model.App;
 import com.harrota.model.User;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 

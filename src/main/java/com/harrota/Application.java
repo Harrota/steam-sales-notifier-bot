@@ -7,17 +7,18 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiRequestException;
 
 public class Application {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         ApiContextInitializer.init();
         TelegramBotsApi botsApi = new TelegramBotsApi();
+
+        SalesNotifier salesNotifier = new SalesNotifier();
 
         try {
             NotifierBot notifierBot = new NotifierBot();
             botsApi.registerBot(notifierBot);
-            notifierBot.getApp();
+            salesNotifier.run();
         } catch (TelegramApiRequestException e) {
             e.printStackTrace();
         }
-
     }
 }

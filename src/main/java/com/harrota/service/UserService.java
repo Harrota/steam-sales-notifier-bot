@@ -1,17 +1,10 @@
 package com.harrota.service;
 
-import com.harrota.dao.AppDAO;
 import com.harrota.dao.UserDAO;
 import com.harrota.model.App;
 import com.harrota.model.User;
 
-import javax.persistence.CascadeType;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class UserService {
     private UserDAO userDAO = new UserDAO();

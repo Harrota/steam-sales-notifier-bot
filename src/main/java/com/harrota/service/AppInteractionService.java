@@ -25,14 +25,10 @@ import static com.harrota.Constants.CURRENCY;
 
 
 public class AppInteractionService {
-    private final MessageSender sender;
     private final String ENDPOINT = "/appdetails?appids=";
     private AppService appService;
 
-
-    public AppInteractionService(MessageSender sender) {
-        this.sender = sender;
-    }
+    public AppInteractionService(){}
 
     public String getAppString(String url) throws ParseException, IOException, URISyntaxException {
 
@@ -40,7 +36,6 @@ public class AppInteractionService {
         StringBuilder sb = new StringBuilder();
         app = jsonToApp(url);
         sb.append(String.format("Found:\n%s \n", app.getName()));
-        //  .append(String.format("App ID: %s \n", app.getId()));
         if (app.getInitialPrice() == 0) {
             sb.append(String.format("The game is free\n"));
         } else {
@@ -53,10 +48,6 @@ public class AppInteractionService {
         System.out.println("get app string for" + app.getName() + " by url " + url);
         return sb.toString();
     }
-
-    //    public void addApp(App app) {
-//        appService.add(app);
-//    }
 
     public App jsonToApp(String url) {
         App app = new App();
