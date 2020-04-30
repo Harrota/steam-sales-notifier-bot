@@ -35,9 +35,8 @@ public class NotifierBot extends AbilityBot implements Constants {
 
     public NotifierBot() {
         super(Constants.BOT_TOKEN, Constants.BOT_NAME);
-        appInteractionService = new AppInteractionService(sender);
+        appInteractionService = new AppInteractionService();
     }
-
 
     @Override
     public int creatorId() {
@@ -170,6 +169,7 @@ public class NotifierBot extends AbilityBot implements Constants {
                             saleApps.add(uncheckedApp);
                         }
                     }
+                    if (saleApps.isEmpty()){result = "Currently no app with sales";}
                     for (App app : saleApps) {
                         result += app.getName() + " - " + app.getDiscountPercent() + "% OFF!\n  " + (int) app.getInitialPrice() + " RUB - before\n  " + (int) app.getFinalPrice() + " RUB - now\n\n";
                     }
