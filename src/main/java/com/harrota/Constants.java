@@ -5,7 +5,7 @@ public interface Constants {
     String BOT_TOKEN = "";
     String BOT_NAME = "";
 
-    String API_URL = "https://store.steampowered.com/api/";
+    String API_URL = "https://store.steampowered.com/api";
 
     String HELP_DESCRIPTION = "list all known commands";
     String ADD_DESCRIPTION = "add new app to notify about";
