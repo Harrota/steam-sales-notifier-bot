@@ -1,36 +1,27 @@
 package com.harrota.service;
 
-import com.harrota.dao.AppDAO;
-import com.harrota.model.App;
+import com.harrota.dao.AppDao;
+import com.harrota.entity.App;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Optional;
 
-
+@Service
 public class AppService {
-    private AppDAO appDAO = new AppDAO();
 
-    public AppService() {
+    private final UserService userService;
+    private final AppDao appDao;
+
+    public AppService(UserService userService, AppDao appDao) {
+        this.userService = userService;
+        this.appDao = appDao;
     }
 
-    public App findApp(int id) {
-        return appDAO.findById(id);
+    public App save(App app){
+        return appDao.save(app);
     }
 
-    public void saveApp(App app) {
-        appDAO.save(app);
+    public Optional<App> findById(Long id){
+        return appDao.findById(id);
     }
-
-    public void deleteApp(App app) {
-        appDAO.delete(app);
-    }
-
-    public void updateApp(App app) {
-        appDAO.update(app);
-    }
-
-    public List<App> findAllApps() {
-        return appDAO.findAll();
-    }
-
-
 }

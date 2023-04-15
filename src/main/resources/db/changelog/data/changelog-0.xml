@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet  id="0"  author="harrota">
+        <createTable  tableName="users">
+            <column  name="id"  type="int"  autoIncrement="true">
+                <constraints  primaryKey="true"  nullable="false"/>
+            </column>
+            <column  name="name"  type="varchar(128)"/>
+            <column  name="surname"  type="varchar(128)"/>
+            <column  name="created"  type="datetime"/>
+        </createTable>
+
+        <createTable  tableName="users_apps">
+            <column  name="user_id"  type="int"  autoIncrement="true">
+                <constraints  primaryKey="true"  nullable="false"/>
+            </column>
+            <column  name="app_id"  type="int"  autoIncrement="true">
+                <constraints  primaryKey="true"  nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable  tableName="apps">
+            <column  name="id"  type="int"  autoIncrement="true">
+                <constraints  primaryKey="true"  nullable="false"/>
+            </column>
+            <column  name="name"  type="varchar(256)"/>
+            <column  name="url"  type="varchar(256)"/>
+            <column  name="steam_id"  type="varchar(256)"/>
+            <column  name="initial_price"  type="float"/>
+            <column  name="discount_price"  type="float"/>
+            <column  name="discount_percent"  type="int"/>
+            <column  name="created"  type="datetime"/>
+        </createTable>
+    </changeSet>
+
+
+    <changeSet id="1" author="harrota">
+        <addForeignKeyConstraint
+                baseColumnNames="user_id"
+                baseTableName="users_apps"
+                constraintName="users_to_users_apps_fk"
+                referencedColumnNames="id"
+                referencedTableName="users"
+        />
+
+        <addForeignKeyConstraint
+                baseColumnNames="app_id"
+                baseTableName="users_apps"
+                constraintName="apps_to_users_apps_fk"
+                referencedColumnNames="id"
+                referencedTableName="apps"
+        />
+    </changeSet>
+
+</databaseChangeLog>
